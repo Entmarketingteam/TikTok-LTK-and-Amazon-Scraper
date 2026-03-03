@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Scraper & Email Finder</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TikTok Scraper</h1>
+            <p class="subtitle">Search trending videos &amp; find creator emails</p>
+        </header>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="tabs">
+                <button class="tab active" data-tab="video-search">Video Search</button>
+                <button class="tab" data-tab="profile-search">Profile Email Finder</button>
+            </div>
+
+            <!-- Video Search Tab -->
+            <div class="tab-content active" id="video-search">
+                <form id="video-search-form">
+                    <div class="form-row">
+                        <input type="text" id="keyword" placeholder="Search keyword (e.g. fitness, skincare, tech)" required>
+                        <select id="date-range">
+                            <option value="7">Last 7 days</option>
+                            <option value="30">Last 30 days</option>
+                            <option value="90">Last 90 days</option>
+                        </select>
+                        <select id="max-videos">
+                            <option value="10">10 videos</option>
+                            <option value="20" selected>20 videos</option>
+                            <option value="50">50 videos</option>
+                            <option value="100">100 videos</option>
+                        </select>
+                        <button type="submit" class="btn-primary">Search</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Profile Email Search Tab -->
+            <div class="tab-content" id="profile-search">
+                <form id="profile-search-form">
+                    <div class="form-row">
+                        <input type="text" id="username" placeholder="TikTok username (e.g. @charlidamelio)" required>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="deep-search" checked>
+                            Deep search (follow Linktree &amp; bio links)
+                        </label>
+                        <button type="submit" class="btn-primary">Find Emails</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div id="status-bar" class="status-bar hidden">
+            <div class="spinner"></div>
+            <span id="status-text">Searching...</span>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="results-section hidden">
+            <div class="results-header">
+                <h2 id="results-title">Results</h2>
+                <div class="results-actions">
+                    <button id="export-csv" class="btn-secondary">Export CSV</button>
+                    <button id="scan-emails-btn" class="btn-accent hidden">Scan All Profiles for Emails</button>
+                </div>
+            </div>
+
+            <!-- Video Results Grid -->
+            <div id="video-grid" class="video-grid hidden"></div>
+
+            <!-- Profile Result -->
+            <div id="profile-result" class="profile-result hidden"></div>
+
+            <!-- Discovered Profiles from Video Search -->
+            <div id="profiles-list" class="profiles-list hidden">
+                <h3>Creators Found</h3>
+                <div id="profiles-grid" class="profiles-grid"></div>
+            </div>
+
+            <!-- Email Scan Results -->
+            <div id="email-results" class="email-results hidden">
+                <h3>Emails Found</h3>
+                <table id="email-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email (Bio)</th>
+                            <th>Email (Linktree)</th>
+                            <th>Profile</th>
+                        </tr>
+                    </thead>
+                    <tbody id="email-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
