@@ -344,14 +344,28 @@ async def health():
     from integrations.find_email import FindEmailClient
     from integrations.smartlead import SmartLeadClient
     from integrations.phantom_buster import PhantomBusterClient
+    from config import _secrets, APIFY_API_TOKEN, SMARTLEAD_API_KEY, FIND_EMAIL_API_KEY, KEYWORDS_EVERYWHERE_API_KEY, PHANTOMBUSTER_API_KEY
 
     apify_ok = await ApifyTikTokClient().health_check()
     smartlead_ok = await SmartLeadClient().health_check()
     find_email_ok = await FindEmailClient().health_check()
     phantom_ok = await PhantomBusterClient().health_check()
 
+    # Show which secrets are loaded (masked) and source
+    doppler_active = len(_secrets) > 0
+    secrets_status = {
+        "APIFY_API_TOKEN": "set" if APIFY_API_TOKEN else "missing",
+        "SMARTLEAD_API_KEY": "set" if SMARTLEAD_API_KEY else "missing",
+        "FIND_EMAIL_API_KEY": "set" if FIND_EMAIL_API_KEY else "missing",
+        "KEYWORDS_EVERYWHERE_API_KEY": "set" if KEYWORDS_EVERYWHERE_API_KEY else "missing",
+        "PHANTOMBUSTER_API_KEY": "set" if PHANTOMBUSTER_API_KEY else "missing",
+    }
+
     return {
         "status": "ok",
+        "secrets_source": "doppler" if doppler_active else "env/.env",
+        "doppler_connected": doppler_active,
+        "secrets": secrets_status,
         "services": {
             "apify": apify_ok,
             "smartlead": smartlead_ok,
